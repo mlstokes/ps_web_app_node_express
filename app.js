@@ -23,9 +23,11 @@ var nav = [{
     Text:'Author'
   }];
 var bookRouter = require('./src/routes/bookRoutes')(nav);
+var adminRouter = require('./src/routes/adminRoutes')(nav);
 
 app.use(express.static('public'));
 app.use('/Books', bookRouter);
+app.use('/Admin', adminRouter);
 
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
