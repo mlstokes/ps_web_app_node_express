@@ -2,6 +2,33 @@ var express = require('express');
 var adminRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 
+var books = [
+        {
+          title: 'War and Peace',
+          genre: 'Historical Fiction',
+          author: 'Lev Nikolayevich Tolstoy',
+          read: false
+        },
+        {
+            title: 'Les Miserables',
+            genre: 'Historical Fiction',
+            author: 'Victor Hugo',
+            read: false
+          },
+          {
+            title: 'The Time Machine',
+            genre: 'Science Fiction',
+            author: 'H. G. Wells',
+            read: false
+          },
+          {
+            title: 'A Journey into the Center of the Earth',
+            genre: 'Science Fiction',
+            author: 'Jules Verne',
+            read: false
+          }
+        ];
+
 var router = function (nav) {
 
   adminRouter.route('/addBooks')
@@ -18,7 +45,7 @@ var router = function (nav) {
           });
       });
 
-      res.send('inserting books');
+      //res.send('inserting books');
     });
 
   return adminRouter;

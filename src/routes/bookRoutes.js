@@ -1,23 +1,40 @@
 var express = require('express');
 var bookRouter = express.Router();
 var sql = require('mssql');
+var mongodb = require('mongodb').MongoClient;
 
 var router = function(nav) {
 
   bookRouter.route('/')
     .get(function (req, res) {
-      var request = new sql.Request();
+      var url =
+        'mongodb://localhost:27017/libraryApp';
 
-      request.query('select top 5 row_number() over (order by name) as [id], Name as [title], company as [author] from COMPANY where ACTIVE = \'Y\'',
-                    function(err, recordset) {
-                        //console.log(recordset.recordset);
-                        //console.log(books);
-                        res.render('bookListView', {
-                          title: 'Books',
-                          nav: nav,
-                          books: recordset.recordset
-                        });
-                      });
+      mongodb.connect(url, function (err, db) {
+        var collection = db.collection('books');
+
+        collection.find({}).toArray(
+          function (err, results) {
+            res.render('bookListView', {
+                title: 'Books',
+                nav: nav,
+                books: results
+              });
+          });
+      });
+
+      //var request = new sql.Request();
+
+      // request.query('select top 5 row_number() over (order by name) as [id], Name as [title], company as [author] from COMPANY where ACTIVE = \'Y\'',
+      //               function(err, recordset) {
+      //                   //console.log(recordset.recordset);
+      //                   //console.log(books);
+      //                   res.render('bookListView', {
+      //                     title: 'Books',
+      //                     nav: nav,
+      //                     books: recordset.recordset
+      //                   });
+      //                 });
 
     });
 
